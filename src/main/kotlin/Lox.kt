@@ -40,6 +40,10 @@ class Lox {
 
             if (hadError) return
 
+            Resolver(interpreter).resolve(statements)
+
+            if (hadError) return
+
             interpreter.interpret(statements)
         }
 

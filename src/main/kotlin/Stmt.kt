@@ -3,7 +3,7 @@ abstract class Stmt {
 
     interface Visitor<R> {
         fun visitBlockStmt(stmt: Block): R
-        fun visitExpressionStmt(expr: Expression): R
+        fun visitExpressionStmt(stmt: Expression): R
         fun visitFunctionStmt(stmt: Function): R
         fun visitIfStmt(stmt: If): R
         fun visitPrintStmt(stmt: Print): R
