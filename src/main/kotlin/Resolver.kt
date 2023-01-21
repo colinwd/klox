@@ -1,5 +1,9 @@
 import java.util.*
 
+/**
+ * A visitor that accepts statements and expressions in order to declare and define variables, classes, and functions
+ * in the appropriate scope
+ */
 class Resolver(
     private val interpreter: Interpreter,
 ) : Expr.Visitor<Void?>, Stmt.Visitor<Void?> {
@@ -10,6 +14,12 @@ class Resolver(
         beginScope()
         resolve(stmt.statements)
         endScope()
+        return null
+    }
+
+    override fun visitClassStmt(stmt: Stmt.Class): Void? {
+        declare(stmt.name)
+        define(stmt.name)
         return null
     }
 
@@ -79,6 +89,12 @@ class Resolver(
         return null
     }
 
+    override fun visitGetExpr(expr: Expr.Get): Void? {
+        // Properties are looked up dynamically, so they don't get resolved here. Access happens in the interpreter
+        resolve(expr.target)
+        return null
+    }
+
     override fun visitGroupingExpr(expr: Expr.Grouping): Void? {
         resolve(expr.expression)
         return null
@@ -91,6 +107,12 @@ class Resolver(
     override fun visitLogicalExpr(expr: Expr.Logical): Void? {
         resolve(expr.left)
         resolve(expr.right)
+        return null
+    }
+
+    override fun visitSetExpr(expr: Expr.Set): Void? {
+        resolve(expr.value)
+        resolve(expr.target)
         return null
     }
 
