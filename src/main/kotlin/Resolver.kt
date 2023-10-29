@@ -20,6 +20,11 @@ class Resolver(
     override fun visitClassStmt(stmt: Stmt.Class): Void? {
         declare(stmt.name)
         define(stmt.name)
+
+        for (method in stmt.methods) {
+            resolveFunction(method, FunctionType.METHOD)
+        }
+
         return null
     }
 
@@ -183,6 +188,8 @@ class Resolver(
     }
 
     private fun resolveLocal(expr: Expr, name: Token) {
+        if (scopes.size == 0) return
+
         for (i in scopes.size downTo 0) {
             if (scopes[i].containsKey(name.lexeme)) {
                 interpreter.resolve(expr, scopes.size - 1 - i)
@@ -195,4 +202,5 @@ class Resolver(
 private enum class FunctionType {
     NONE,
     FUNCTION,
+    METHOD,
 }

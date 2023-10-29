@@ -1,0 +1,12 @@
+class Car {
+  drive() {
+    print "zoom zoom";
+  }
+}
+
+var car = Car();
+car.wheels = 4;
+
+print car.wheels;
+
+car.drive();

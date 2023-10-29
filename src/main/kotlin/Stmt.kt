@@ -26,7 +26,7 @@ abstract class Stmt {
         val methods: List<Stmt.Function>,
     ) : Stmt() {
         override fun <R> accept(visitor: Visitor<R>): R {
-            TODO("Not yet implemented")
+            return visitor.visitClassStmt(this)
         }
     }
 
